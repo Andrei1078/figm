@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Our Love Story ❤️</title>
+<title>την ερωτική μας ιστορία❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -76,6 +76,22 @@ button {
     align-items: center;
     user-select: none;
 }
+.confetti {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    opacity: 1;
+    font-size: 18px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translate(var(--x), var(--y)) rotate(var(--r));
+        opacity: 0;
+    }
+}
 </style>
 </head>
 <body>
@@ -128,7 +144,7 @@ const levels = [
         photo: "photo2.jpg"
     },
     {
-        target: 10,
+        target: 8,
         message: "Every day with you is special 💕",
         photo: "photo3.jpg"
     },
@@ -205,7 +221,23 @@ function nextLevel() {
     hearts = [];
 
     if (level >= levels.length) {
-        gameActive = false;
+        // Show final message
+        const overlay = document.getElementById("overlay");
+        const message = document.getElementById("message");
+        const button = overlay.querySelector("button");
+
+        message.textContent = "Forever your malaka ❤️";
+        document.getElementById("photo").style.display = "none";
+
+        // Hide the continue button
+        button.style.display = "none";
+
+        // Trigger confetti/heart explosion
+        celebrate();
+
+        // Show overlay for final message
+        overlay.style.display = "flex";
+
         return;
     }
 
@@ -250,6 +282,27 @@ function update() {
 }
 
 update();
+
+function celebrate() {
+    const colors = ["#d6336c", "#ff69b4", "#ff1493", "#ffb6c1", "#ffc0cb"];
+    const symbols = ["❤️", "💖", "💘", "💞", "💝"];
+    
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+        confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = "-20px";
+        confetti.style.setProperty("--x", (Math.random() * 200 - 100) + "px");
+        confetti.style.setProperty("--y", window.innerHeight + "px");
+        confetti.style.setProperty("--r", (Math.random() * 360) + "deg");
+        confetti.style.animationDuration = (3 + Math.random() * 2) + "s";
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+    }
+}
+
 </script>
 </body>
 </html>
