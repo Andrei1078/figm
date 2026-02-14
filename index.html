@@ -64,17 +64,6 @@ button {
     box-sizing: border-box;
 }
 
-#finalVideo {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    height: auto;
-    max-height: 90%;
-    border-radius: 10px;
-    z-index: 1000;
-}
 
 .control-btn {
     width: 70px;
@@ -115,11 +104,7 @@ button {
     <img id="photo" style="display:none;">
     <audio id="voice" controls style="display:none;"></audio>
     <button onclick="nextLevel()">Continue ❤️</button>
-    <button id="reclaimBtn" style="display:none;" onclick="showFinalVideo()">Reclaim your prize 🎁</button>
-
 </div>
-
-<video id="finalVideo" width="80%" style="display:none; border-radius:10px;" controls></video>
 
 <canvas id="game"></canvas>
 
@@ -191,7 +176,6 @@ document.getElementById("leftBtn").ontouchend = () => left = false;
 document.getElementById("rightBtn").ontouchstart = () => right = true;
 document.getElementById("rightBtn").ontouchend = () => right = false;
 
-// Spawn hearts
 function spawnHeart() {
     if (!gameActive) return;
     hearts.push({
@@ -237,7 +221,6 @@ function nextLevel() {
     hearts = [];
 
     if (level >= levels.length) {
-        // Show final message
         const overlay = document.getElementById("overlay");
         const message = document.getElementById("message");
         const button = overlay.querySelector("button");
@@ -246,7 +229,6 @@ function nextLevel() {
         message.textContent = "Forever your malaka ❤️";
         document.getElementById("photo").style.display = "none";
 
-        // Hide the continue button
         button.style.display = "none";
 
         celebrate();
@@ -299,19 +281,6 @@ function update() {
 }
 
 update();
-
-function showFinalVideo() {
-    const reclaimBtn = document.getElementById("reclaimBtn");
-    const video = document.getElementById("finalVideo");
-    const overlay = document.getElementById("overlay");
-
-    reclaimBtn.style.display = "none";
-    overlay.style.display = "none";
-
-    video.src = "ophelia.mp4"; // your video file
-    video.style.display = "block";
-    video.play();
-}
 
 function celebrate() {
     const colors = ["#d6336c", "#ff69b4", "#ff1493", "#ffb6c1", "#ffc0cb"];
